@@ -12,35 +12,35 @@
 
 // console.log(sum(1,2,3,4));
 
-// Object.prototype.myBind = function(object) {
-//   let that = this;
-//   let bindArgs = Array.prototype.slice.call(arguments, 1);
-//   return function () {
-//     let internalArgs = Array.prototype.slice.call(arguments, 0);
-//     let args = Array.prototype.concat(bindArgs, internalArgs);
-//     return that.apply(object, args);
-//   };
-// };
+Object.prototype.myBind = function(object) {
+  let that = this;
+  let bindArgs = Array.prototype.slice.call(arguments, 1);
+  return function () {
+    let internalArgs = Array.prototype.slice.call(arguments, 0);
+    let args = Array.prototype.concat(bindArgs, internalArgs);
+    return that.apply(object, args);
+  };
+};
 
-// Object.prototype.myBind = function(object, ...bindArgs) {
-//   let that = this;
-//   return function (...internalArgs) {
-//     let args = Array.prototype.concat(bindArgs, internalArgs);
-//     return that.apply(object, args);
-//   };
-// };
-//
-// class Cat {
-//   constructor(name) {
-//     this.name = name;
-//   }
-//
-//   says(sound, person) {
-//     console.log(`${this.name} says ${sound} to ${person}!`);
-//     return true;
-//   }
-// }
-//
+Function.prototype.myBind = function(object, ...bindArgs) {
+  let that = this;
+  return function (...internalArgs) {
+    let args = Array.prototype.concat(bindArgs, internalArgs);
+    return that.apply(object, args);
+  };
+};
+
+class Cat {
+  constructor(name) {
+    this.name = name;
+  }
+
+  says(sound, person) {
+    console.log(`${this.name} says ${sound} to ${person}!`);
+    return true;
+  }
+}
+
 // const markov = new Cat("Markov");
 // const breakfast = new Cat("Breakfast");
 //
@@ -96,8 +96,8 @@ Function.prototype.curry = function(numArgs) {
   function _curriedSum(num) {
     numbers.push(num);
     if (numbers.length === numArgs) {
-      return that.apply(null, numbers);
-      // return that(...numbers);
+      // return that.apply(null, numbers);
+      return that(...numbers);
     } else {
       return _curriedSum;
     }
